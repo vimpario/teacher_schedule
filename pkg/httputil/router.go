@@ -2,10 +2,11 @@ package httputil
 
 import (
 	"net/http"
+	"teacher_schedule/internal/groups"
 	"teacher_schedule/internal/schedule"
 	"teacher_schedule/internal/subjects"
 
-	// "teacher_schedule/internal/subjects"
+	
 	"teacher_schedule/internal/users"
 
 	"github.com/go-chi/chi/v5"
@@ -32,6 +33,10 @@ func NewRouter() *chi.Mux {
 	r.Route("/subjects", func(r chi.Router) {
 		r.Get("/", subjects.GetSubjectHandler)
 		r.Post("/", subjects.CreateSunbjectHandler)
+	})
+	r.Route("/group", func(r chi.Router){
+		r.Get("/", groups.GetGroupHandler)
+		r.Post("/", groups.CreateGroupHandler)
 	})
 
 	return r

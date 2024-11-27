@@ -19,7 +19,9 @@ func InitDB(){
         " sslmode=disable"
 
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 
 	if err != nil{
 		log.Fatalf("Ошибка подключения к бд: %v", err)

@@ -9,11 +9,15 @@ import (
 	"teacher_schedule/pkg/config"
 
 	"teacher_schedule/pkg/httputil"
+
+	
 )
 
 func main() {
     config.LoadConfig()
 	config.InitDB()
+
+
 
 	err := config.DB.AutoMigrate(&users.User{}, &schedule.Schedule{}, &subjects.Subjects{})
 	if err != nil{
