@@ -161,7 +161,7 @@ func UpdateScheduleHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(schedule)
 }
 
-func BulkAddSchedulesHandler(w http.ResponseWriter, r *http.Request) {
+func AddBulkSchedulesHandler(w http.ResponseWriter, r *http.Request) {
 	var newSchedules []NewSchedule
 
 	err := json.NewDecoder(r.Body).Decode(&newSchedules)
@@ -203,4 +203,29 @@ func DeleteScheduleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func DeleteBulkSchedulesHandler(w http.ResponseWriter, r *http.Request){
+	var schedulesID [] uint
+	err := json.NewDecoder(r.Body).Decode(&schedulesID)
+	if err != nil{
+		http.Error(w, "Неверное тело запроса", http.StatusBadRequest)
+		return
+	}
+	if len(schedulesID) == 0 {
+		http.Error(w, "Пустое тело запроса", http.StatusBadRequest)
+		return
+	}
+	result := config.DB.Where("scheduleid IN ?", schedulesID).Delete(&Schedule{})
+	if result.Error != nil{
+		http.Error(w, "Ошибка удаления указанных расписаний", http.StatusInternalServerError)
+		return
+	}
+
+	response := map[string]interface{}{
+		"message": "Расписания удалены успешно",
+		"count": result.RowsAffected,
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
