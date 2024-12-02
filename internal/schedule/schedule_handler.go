@@ -3,6 +3,7 @@ package schedule
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"teacher_schedule/pkg/config"
 
 	"github.com/go-chi/chi/v5"
@@ -52,6 +53,34 @@ func GetScheduleByIdHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 	json.NewEncoder(w).Encode(schedule)
+}
+
+func GetScheduleByTeacherHandler(w http.ResponseWriter, r *http.Request){
+	teacherIDParam := chi.URLParam(r, "teacherId")
+	teacherID, err := strconv.Atoi(teacherIDParam)
+
+	if err != nil {
+		http.Error(w, "Нверный ID преподавтеля", http.StatusBadRequest)
+		return
+	}
+
+	var schedules []Schedule
+	err = config.DB.Where("teacherid = ?", teacherID).Find(&schedules).Error
+	if err  != nil{
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if len(schedules) == 0 {
+		http.Error(w, "Для данного расписания нет расписания", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	err = json.NewEncoder(w).Encode(schedules)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func UpdateScheduleHandler(w http.ResponseWriter, r *http.Request){

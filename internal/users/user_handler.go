@@ -1,10 +1,13 @@
 package users
 
 import (
+	
 	"encoding/json"
 	"net/http"
 	"teacher_schedule/pkg/config"
 )
+
+
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	var users []User
@@ -14,6 +17,19 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(users)
+}
+
+func GetTeachersHandler(w http.ResponseWriter, r *http.Request){
+	var teachers []User
+	const TeacherRoleID = 2
+	result := config.DB.Where("roleid = ?", TeacherRoleID).Find(&teachers)
+	if result.Error != nil{
+		http.Error(w, result.Error.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode((teachers))
+	
 }
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
