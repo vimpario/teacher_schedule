@@ -28,8 +28,10 @@ func NewRouter() *chi.Mux {
 		r.Get("/", schedule.GetAllSchedulesHandler)
 		r.Get("/{id}", schedule.GetScheduleByIdHandler)
 		r.Get("/teacher/{teacherId}", schedule.GetScheduleByTeacherHandler)
+		r.Get("/filter", schedule.GetScheduleFilteredHandler)
 		r.Post("/", schedule.CreateScheduleHandler)
 		r.Put("/{id}", schedule.UpdateScheduleHandler)
+		r.Post("/bulk-add", schedule.BulkAddSchedulesHandler)
 		r.Delete("/{id}", schedule.DeleteScheduleHandler)
 	})
 	r.Route("/subjects", func(r chi.Router) {
