@@ -80,6 +80,7 @@ func GetScheduleByTeacherHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewEncoder(w).Encode(schedules)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 

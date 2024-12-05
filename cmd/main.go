@@ -3,14 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
+	"teacher_schedule/internal/attendance"
 	"teacher_schedule/internal/schedule"
 	"teacher_schedule/internal/subjects"
 	"teacher_schedule/internal/users"
 	"teacher_schedule/pkg/config"
 
 	"teacher_schedule/pkg/httputil"
-
-	
 )
 
 func main() {
@@ -19,7 +18,7 @@ func main() {
 
 
 
-	err := config.DB.AutoMigrate(&users.User{}, &schedule.Schedule{}, &subjects.Subjects{})
+	err := config.DB.AutoMigrate(&users.User{}, &schedule.Schedule{}, &subjects.Subjects{}, &attendance.Attendance{})
 	if err != nil{
 		log.Fatalf("ОШибка миграции моделей: %v", err)
 	}
