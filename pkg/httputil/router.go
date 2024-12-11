@@ -49,9 +49,9 @@ func NewRouter() *chi.Mux {
 		r.Get("/schedule/{scheduleId}", attendance.GetAttendanceByScheduleHandler)
 		r.Post("/", attendance.AddAttendanceHandler)
 		r.Post("/bulk-add", attendance.AddBulkAttendancesHandler)
-		r.Put("/{attendanceId}", attendance.UpdateAttndanceHandler)
+		r.Put("/{id}", attendance.UpdateAttndanceHandler)
 		r.Put("/bulk-update", attendance.UpdateBulkAttendancesHandler)
-		r.Delete("/{attendanceId}", attendance.DeleteAttendanceHandler)
+		r.Delete("/{id}", attendance.DeleteAttendanceHandler)
 		r.Delete("/bulk-delete", attendance.DeleteBulkAttendacesHandler)
 	})
 
