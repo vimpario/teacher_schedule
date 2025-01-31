@@ -94,6 +94,44 @@ go run cmd/main.go
 {"ID":3,"TeacherID":1,"DayID":1,"SlotID":1,"GroupID":1,"SubjectID":1,"IsOccupied":true,"ClassroomID":1}
 ```
 
+#### Массовое создание новых расписаний
+`POST /schedule/bulk-add`
+##### Пример запроса:
+```json
+[
+  {
+    "groupId": 1,
+    "subjectId": 101,
+    "isOccupied": true
+  },
+  {
+    "groupId": 1,
+    "subjectId": 102,
+    "isOccupied": false
+  },
+  {
+    "groupId": 2,
+    "subjectId": 101,
+    "isOccupied": true
+  },
+  {
+    "groupId": 3,
+    "subjectId": 103,
+    "isOccupied": true
+  },
+  {
+    "groupId": 3,
+    "subjectId": 104,
+    "isOccupied": false
+  }
+]
+```
+##### Ответ:
+200 OK 
+```json
+[{"ID":4,"TeacherID":0,"DayID":0,"SlotID":0,"GroupID":1,"SubjectID":101,"IsOccupied":true,"ClassroomID":0},{"ID":5,"TeacherID":0,"DayID":0,"SlotID":0,"GroupID":1,"SubjectID":102,"IsOccupied":false,"ClassroomID":0},{"ID":6,"TeacherID":0,"DayID":0,"SlotID":0,"GroupID":2,"SubjectID":101,"IsOccupied":true,"ClassroomID":0},{"ID":7,"TeacherID":0,"DayID":0,"SlotID":0,"GroupID":3,"SubjectID":103,"IsOccupied":true,"ClassroomID":0},{"ID":8,"TeacherID":0,"DayID":0,"SlotID":0,"GroupID":3,"SubjectID":104,"IsOccupied":false,"ClassroomID":0}]
+```
+
 #### Получение расписания по ID
 `GET /schedule/{id}`
 
