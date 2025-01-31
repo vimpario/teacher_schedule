@@ -21,8 +21,8 @@ func NewRouter() *chi.Mux {
 
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", users.GetUserHandler)
-		r.Post("/register", users.CreateUserHandler)
 		r.Get("/teachers", users.GetTeachersHandler)
+		r.Post("/register", users.CreateUserHandler)
 	})
 	r.Route("/schedule", func(r chi.Router) {
 		r.Get("/", schedule.GetAllSchedulesHandler)

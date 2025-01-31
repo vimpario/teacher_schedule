@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"teacher_schedule/internal/attendance"
+	"teacher_schedule/internal/groups"
 	"teacher_schedule/internal/schedule"
 	"teacher_schedule/internal/subjects"
 	"teacher_schedule/internal/users"
@@ -16,9 +17,7 @@ func main() {
     config.LoadConfig()
 	config.InitDB()
 
-
-
-	err := config.DB.AutoMigrate(&users.User{}, &schedule.Schedule{}, &subjects.Subjects{}, &attendance.Attendance{})
+	err := config.DB.AutoMigrate(&users.User{}, &schedule.Schedule{}, &subjects.Subjects{}, &attendance.Attendance{}, &groups.Group{})
 	if err != nil{
 		log.Fatalf("ОШибка миграции моделей: %v", err)
 	}

@@ -72,7 +72,7 @@ func GetScheduleByTeacherHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(schedules) == 0 {
-		http.Error(w, "Для данного расписания нет расписания", http.StatusNotFound)
+		http.Error(w, "Для данного преподавателя нет расписания", http.StatusNotFound)
 		return
 	}
 
